@@ -1,4 +1,6 @@
 const fs = require('fs');
+const TransactionService = require('../Services/TransactionService');
+const UserService = require('../Services/UserService');
 
 class FileService {
 
@@ -11,7 +13,11 @@ class FileService {
             fs.readFile(fileName, (err, data) => {
                 if (err) throw err;
                 let transactions = JSON.parse(data);
-                transactions.forEach(transaction => console.log(transaction));
+                transactions.forEach(transaction => {
+                    const userId = transaction.user_id;
+                    const user = UserService.getUser(userId);
+                    TransactionService.executeTransaction(user, transaction);
+                });
             });
         } else
             console.log('File argument not provided.');
