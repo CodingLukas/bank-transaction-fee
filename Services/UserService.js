@@ -11,11 +11,15 @@ class UserService {
     }
 
     getUser(id) {
-        return this.users.find(user => user.getId() === id);
+        let user = this.users.find(user => user.id === id);
+        if(user === undefined) user = this.createUser(id);
+        return user;
     }
 
-    addUser(id) {
-        this.users.push(new UserFactory(id));
+    createUser(id) {
+        const user = new UserFactory(id);
+        this.users.push(user);
+        return user;
     }
 
 }
