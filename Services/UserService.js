@@ -1,4 +1,4 @@
-const UserFactory = require('../Models/User');
+import {User} from '../Models/User.js';
 
 class UserService {
 
@@ -17,7 +17,7 @@ class UserService {
     }
 
     createUser(id) {
-        const user = new UserFactory(id);
+        const user = new User(id);
         this.users.push(user);
         return user;
     }
@@ -25,5 +25,4 @@ class UserService {
 }
 
 const instance = new UserService();
-
-module.exports = instance;
+export const getUserService = () => instance;

@@ -1,4 +1,4 @@
-const Fee = require('../Models/Fee');
+import {Fee} from '../Models/Fee.js';
 
 class CashOutLegalFee extends Fee {
 
@@ -17,5 +17,4 @@ class CashOutLegalFee extends Fee {
 }
 
 const instance = new CashOutLegalFee();
-
-module.exports = instance;
+export const getCashOutLegalFee = () => instance;

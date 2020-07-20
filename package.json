@@ -2,6 +2,7 @@
   "name": "bank-transaction",
   "version": "1.0.0",
   "description": "bank transaction fee calculation task",
+  "type": "module",
   "main": "index.js",
   "scripts": {
     "test": "mocha",

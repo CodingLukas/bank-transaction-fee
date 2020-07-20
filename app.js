@@ -1,6 +1,4 @@
-'use strict';
-
-const FileService = require('./Services/FileService');
+import {getFileService} from './Services/FileService.js';
 
 class Main {
 
@@ -9,7 +7,7 @@ class Main {
     }
 
     startProgram() {
-        FileService.loadFile(Main.getFileName());
+        getFileService().loadFile(this.getFileName());
     }
 
     getFileName(){

@@ -1,4 +1,4 @@
-module.exports = class Transaction {
+export class Transaction {
 
     constructor(object) {
         this.date = object.date;
@@ -12,4 +12,4 @@ module.exports = class Transaction {
         return this.operation.amount;
     }
 
-};
+}

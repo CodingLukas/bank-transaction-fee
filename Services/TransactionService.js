@@ -1,8 +1,8 @@
-const TransactionFactory = require('../Models/Transaction');
-const CashInFee = require('../Models/CashInFee');
-const CashOutLegalFee = require('../Models/CashOutLegalFee');
-const CashOutNaturalFee = require('../Models/CashOutNaturalFee');
-var moment = require('moment');
+import {Transaction} from '../Models/Transaction.js';
+import {getCashInFeeInstance} from '../Models/CashInFee.js';
+import {getCashOutLegalFee} from '../Models/CashOutLegalFee.js';
+import {getCashOutNaturalFee} from '../Models/CashOutNaturalFee.js';
+import moment from 'moment'
 
 class TransactionService {
 
@@ -17,26 +17,26 @@ class TransactionService {
     }
 
     makeTransaction(args) {
-        return new TransactionFactory(args);
+        return new Transaction(args);
     }
 
     cashIn(amount) {
-        const fee = CashInFee.calculateFee(amount);
+        const fee = getCashInFeeInstance().calculateFee(amount);
         console.log(fee);
     }
 
     cashOut(user, transaction) {
         let fee;
         if (transaction.user_type === 'juridical')
-            fee = CashOutLegalFee.calculateFee(transaction.getAmount());
+            fee = getCashOutLegalFee().calculateFee(transaction.getAmount());
         else
-            fee = CashOutNaturalFee.calculateFee(transaction.getAmount(), user.amount);
+            fee = getCashOutNaturalFee().calculateFee(transaction.getAmount(), user.amount);
         console.log(fee);
     }
 
     isSameWeekTransaction(user, transaction) {
-        var last = moment(user.lastTransactionDate);
-        var current = moment(transaction.date);
+        const last = moment(user.lastTransactionDate);
+        const current = moment(transaction.date);
         return user.lastTransactionDate === undefined || last.isoWeek() === current.isoWeek();
     }
 
@@ -49,5 +49,4 @@ class TransactionService {
 }
 
 const instance = new TransactionService();
-
-module.exports = instance;
+export const getTransactionService = () => instance;

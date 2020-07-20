@@ -1,6 +1,7 @@
-const fs = require('fs');
-const TransactionService = require('../Services/TransactionService');
-const UserService = require('../Services/UserService');
+import * as fs from 'fs';
+import {getTransactionService} from '../Services/TransactionService.js';
+import {getUserService} from '../Services/UserService.js';
+
 
 class FileService {
 
@@ -11,8 +12,8 @@ class FileService {
                 let transactions = JSON.parse(data);
                 transactions.forEach(transaction => {
                     const userId = transaction.user_id;
-                    const user = UserService.getUser(userId);
-                    TransactionService.executeTransaction(user, transaction);
+                    const user = getUserService().getUser(userId);
+                    getTransactionService().executeTransaction(user, transaction);
                 });
             });
         } else
@@ -22,5 +23,4 @@ class FileService {
 }
 
 const instance = new FileService();
-
-module.exports = instance;
+export const getFileService = () => instance;

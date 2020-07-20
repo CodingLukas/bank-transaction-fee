@@ -1,4 +1,4 @@
-module.exports = class Fee {
+export class Fee {
 
     constructor() {
         this.fracionsAmount = 2;
@@ -21,4 +21,4 @@ module.exports = class Fee {
         }).format(num);
     }
 
-};
+}
