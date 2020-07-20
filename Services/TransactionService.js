@@ -1,17 +1,18 @@
 const TransactionFactory = require('../Models/Transaction');
 const CashInFee = require('../Models/CashInFee');
-const CashInLegalFee = require('../Models/CashOutLegalFee');
-const CashInNaturalFee = require('../Models/CashOutNaturalFee');
+const CashOutLegalFee = require('../Models/CashOutLegalFee');
+const CashOutNaturalFee = require('../Models/CashOutNaturalFee');
 var moment = require('moment');
 
 class TransactionService {
 
     executeTransaction(user, args) {
         const transaction = this.makeTransaction(args);
-        if (transaction.type === 'cash_in') this.cashIn(user, transaction);
+        if (transaction.type === 'cash_in') this.cashIn(transaction.getAmount());
         else {
             this.updateLimits(user, transaction);
             this.cashOut(user, transaction);
+            user.amount += transaction.getAmount();
         }
     }
 
@@ -19,18 +20,17 @@ class TransactionService {
         return new TransactionFactory(args);
     }
 
-    cashIn(user, transaction) {
-        const fee = CashInFee.calculateFee(user, transaction);
+    cashIn(amount) {
+        const fee = CashInFee.calculateFee(amount);
         console.log(fee);
     }
 
     cashOut(user, transaction) {
         let fee;
         if (transaction.user_type === 'juridical')
-            fee = CashInLegalFee.calculateFee(user, transaction);
+            fee = CashOutLegalFee.calculateFee(transaction.getAmount());
         else
-            fee = CashInNaturalFee.calculateFee(this, user, transaction);
-
+            fee = CashOutNaturalFee.calculateFee(transaction.getAmount(), user.amount);
         console.log(fee);
     }
 
@@ -48,4 +48,6 @@ class TransactionService {
 
 }
 
-module.exports = new TransactionService();
+const instance = new TransactionService();
+
+module.exports = instance;

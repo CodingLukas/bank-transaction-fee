@@ -24,4 +24,6 @@ class UserService {
 
 }
 
-module.exports = new UserService();
+const instance = new UserService();
+
+module.exports = instance;

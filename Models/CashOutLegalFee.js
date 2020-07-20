@@ -1,13 +1,21 @@
 const Fee = require('../Models/Fee');
 
-class CashInFee extends Fee {
+class CashOutLegalFee extends Fee {
 
-    calculateFee(user, transaction){
-        let fee = transaction.operation.amount * 0.003;
-        if(fee < 0.50) fee = 0.50;
-        return this.roundUp(fee,2);
+    constructor() {
+        super();
+        this.minFee = 0.50;
+        this.tax = 0.003;
+    }
+
+    calculateFee(amount) {
+        let fee = amount * this.tax;
+        if (fee < this.minFee) fee = this.minFee;
+        return this.roundUp(fee);
     }
 
 }
 
-module.exports = new CashInFee();
+const instance = new CashOutLegalFee();
+
+module.exports = instance;

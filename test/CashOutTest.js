@@ -1,5 +1,4 @@
 const assert = require('chai').assert;
-
 const CashOutLegalFee = require('../Models/CashOutLegalFee');
 const CashOutNaturalFee = require('../Models/CashOutNaturalFee');
 

@@ -9,8 +9,11 @@ class Main {
     }
 
     startProgram() {
-        let fileName = process.argv.slice(2)[0];
-        FileService.loadFile(fileName);
+        FileService.loadFile(Main.getFileName());
+    }
+
+    getFileName(){
+        return process.argv.slice(2)[0];
     }
 
 }

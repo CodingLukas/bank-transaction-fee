@@ -8,4 +8,8 @@ module.exports = class Transaction {
         this.operation = object.operation;
     }
 
+    getAmount() {
+        return this.operation.amount;
+    }
+
 };

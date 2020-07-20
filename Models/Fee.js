@@ -1,19 +1,23 @@
 module.exports = class Fee {
 
-    calculateFee(){
-        throw new Error('Cannot instanciate abstract class');
+    constructor() {
+        this.fracionsAmount = 2;
     }
 
-    roundUp(num, precision) {
-        precision = Math.pow(10, precision);
+    calculateFee(){
+        throw new Error('Cannot instanciate abstract method');
+    }
+
+    roundUp(num) {
+        const precision = Math.pow(10, this.fracionsAmount);
         const roundedFee = Math.ceil(num * precision) / precision;
         return this.format(roundedFee);
     }
 
     format(num) {
         return new Intl.NumberFormat('en-IN', {
-            minimumFractionDigits: 2,
-            maximumFractionDigits: 2,
+            minimumFractionDigits: this.fracionsAmount,
+            maximumFractionDigits: this.fracionsAmount,
         }).format(num);
     }
 

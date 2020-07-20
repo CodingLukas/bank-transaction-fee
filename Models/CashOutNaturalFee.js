@@ -8,18 +8,19 @@ class CashOutNaturalFee extends Fee {
         this.tax = 0.003;
     }
 
-    calculateFee(TransactionService, user, transaction) {
+    calculateFee(amount, userWithdrawnAmount) {
         let amountToFee;
-        if (user.amount <= this.limit)
-            amountToFee = transaction.operation.amount - (this.limit - user.amount);
-        else amountToFee = transaction.operation.amount;
+        if (userWithdrawnAmount <= this.limit)
+            amountToFee = amount - (this.limit - userWithdrawnAmount);
+        else amountToFee = amount;
         if (amountToFee < 0) amountToFee = 0;
-        user.amount += transaction.operation.amount;
 
         let fee = amountToFee * this.tax;
-        return this.roundUp(fee, 2);
+        return this.roundUp(fee);
     }
 
 }
 
-module.exports = new CashOutNaturalFee();
+const instance = new CashOutNaturalFee();
+
+module.exports = instance;

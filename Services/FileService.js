@@ -4,10 +4,6 @@ const UserService = require('../Services/UserService');
 
 class FileService {
 
-    constructor() {
-
-    }
-
     loadFile(fileName) {
         if (fileName !== undefined) {
             fs.readFile(fileName, (err, data) => {
@@ -25,4 +21,6 @@ class FileService {
 
 }
 
-module.exports = new FileService();
+const instance = new FileService();
+
+module.exports = instance;
